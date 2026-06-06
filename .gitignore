@@ -28,6 +28,9 @@ secrets.py
 *.xlsx
 *.xls
 
+# --- Local working files ---
+NOTES.md
+
 # --- OS / editor ---
 .DS_Store
 Thumbs.db
