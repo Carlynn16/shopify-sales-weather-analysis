@@ -1,4 +1,6 @@
 # --- Confidential data & legacy material ---
+# data/ holds real client CSVs (PII) + weather/geocoding cache files
+# (store_coords.cache.json, weather_*.json) — all git-ignored
 data/
 _legacy/
 _original/
