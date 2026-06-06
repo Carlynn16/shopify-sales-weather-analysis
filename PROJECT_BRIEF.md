@@ -7,8 +7,8 @@
 ## 1. Context
 
 A Danish artisan food chain (ice cream, chocolate, bakery, coffee) operates **7 physical
-stores** around Copenhagen: [location], [location], [location], [location], [location], [location],
-[location]. *(Client name kept out of the public repo for confidentiality.)*
+stores** around the Copenhagen area.
+*(Client name and store locations kept out of the public repo for confidentiality.)*
 
 Each store runs its point-of-sale (POS) on **Shopify**; every in-store transaction is recorded
 there. Data is pulled from the **Shopify Admin API** over a **14-month window (Jan 2024 →
