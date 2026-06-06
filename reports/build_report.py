@@ -192,7 +192,7 @@ _body(doc,
     "referred to as Store A through Store G, ranked by total revenue (Store A = "
     "highest revenue).  Revenue figures and unit counts are expressed as a percentage "
     "of the dataset total, or as an index scaled so that the maximum value equals 100, "
-    "rather than in absolute DKK.  This protects client confidentiality while "
+    "rather than as absolute monetary amounts.  This protects client confidentiality while "
     "preserving all relative comparisons and analytical conclusions."
 )
 
