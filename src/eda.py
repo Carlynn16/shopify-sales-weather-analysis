@@ -83,8 +83,22 @@ def _add_local_time(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def _strip_prefix(name: str) -> str:
-    return name.replace("the client ", "")
+def _make_label_fn(store_names: list[str]):
+    """
+    Return a function that strips the common word-prefix shared by all store names.
+    Entirely data-driven — no brand string is hardcoded here.
+
+    E.g. if all names share the first two words, the returned fn drops those two
+    words and returns the remainder as the short label.
+    """
+    split = [n.split() for n in store_names if n]
+    prefix_len = 0
+    for words in zip(*split):
+        if len(set(words)) == 1:
+            prefix_len += 1
+        else:
+            break
+    return lambda name: " ".join(name.split()[prefix_len:]) or name
 
 
 # ── Top-products ──────────────────────────────────────────────────────────────
@@ -496,7 +510,8 @@ def category_seasonality(
     """
     df = _add_local_time(df)
     long = (
-        df.groupby(["name_category", "month_period"], as_index=False)["revenue"]
+        df[df["name_category"] != "Uncategorized"]
+        .groupby(["name_category", "month_period"], as_index=False)["revenue"]
         .sum()
     )
     pivot = (
@@ -593,7 +608,8 @@ def revenue_by_store(
         # Drop real store names from anonymized output to prevent accidental exposure
         return agg[["store_label", "revenue", "order_count", "avg_order_value"]]
     else:
-        agg["store_label"] = agg["store_name"].apply(_strip_prefix)
+        shorten = _make_label_fn(agg["store_name"].tolist())
+        agg["store_label"] = agg["store_name"].apply(shorten)
         return agg[["store_name", "store_label", "revenue", "order_count", "avg_order_value"]]
 
 
@@ -661,7 +677,9 @@ def store_category_mix(
     if anonymize:
         sub["store_label"] = sub["store_name"].map(labels)
     else:
-        sub["store_label"] = sub["store_name"].apply(_strip_prefix)
+        real_names = [n for n in sub["store_name"].unique()]
+        shorten = _make_label_fn(real_names)
+        sub["store_label"] = sub["store_name"].apply(shorten)
 
     long = (
         sub.groupby(["store_label", "name_category"], as_index=False)["revenue"]

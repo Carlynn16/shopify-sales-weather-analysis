@@ -68,10 +68,14 @@ for p in sorted(FIGURES_DIR.glob("*.png")):
     print(f"  {p.name:<45} ({p.stat().st_size // 1024} KB)")
 
 print()
-print("=== Confirming no store suburb names in PROJECT_BRIEF.md ===")
-flagged = [w for w in ["[location]","[location]","[location]","[location]","Vedb","rrebro","sterbro"]
-           if w in Path("PROJECT_BRIEF.md").read_text(encoding="utf-8")]
+print("=== Confirming no real store identifiers in PROJECT_BRIEF.md ===")
+brief_text = Path("PROJECT_BRIEF.md").read_text(encoding="utf-8")
+# Derive terms to check from actual data (git-ignored) — nothing hardcoded here
+real_store_names = {n for n in df["store_name"].dropna().unique() if n != "Unknown Store"}
+# Check every word from every real store name (skip short stop-words)
+words_to_check = sorted({w for name in real_store_names for w in name.split() if len(w) > 3})
+flagged = [w for w in words_to_check if w in brief_text]
 if flagged:
-    print(f"  WARNING: found {flagged}")
+    print(f"  WARNING: found real identifier(s) in brief: {flagged}")
 else:
-    print("  OK — no real store/suburb names found in PROJECT_BRIEF.md")
+    print(f"  OK — checked {len(words_to_check)} real-name terms, none found in PROJECT_BRIEF.md")

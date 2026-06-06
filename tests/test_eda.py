@@ -212,7 +212,9 @@ def test_category_seasonality_shape(df):
 
 def test_category_seasonality_sums_to_total(df):
     pivot = category_seasonality(df, anonymize=False)
-    assert abs(pivot.values.sum() - df["revenue"].sum()) < 1.0
+    # Uncategorized rows are intentionally excluded from the seasonality pivot
+    known_rev = df[df["name_category"] != "Uncategorized"]["revenue"].sum()
+    assert abs(pivot.values.sum() - known_rev) < 1.0
 
 
 def test_plot_category_seasonality_saves_file(df):
@@ -296,16 +298,21 @@ def test_anonymized_store_labels_are_a_to_g(df):
 
 
 def test_anonymized_store_no_real_names(df):
+    # Derive forbidden terms at runtime from the git-ignored data — no brand string hardcoded
+    real_names = {n for n in df["store_name"].dropna().unique() if n != "Unknown Store"}
     tbl = revenue_by_store(df, anonymize=True)
-    assert not any("the client" in lbl for lbl in tbl["store_label"])
-    # anonymized output must not contain a store_name column (real names must not be exposed)
+    for real in real_names:
+        assert real not in tbl["store_label"].values, f"Real store name leaked: {real!r}"
+    # anonymized output must not expose a store_name column
     assert "store_name" not in tbl.columns
 
 
 def test_anonymized_category_mix_store_labels(df):
+    real_names = {n for n in df["store_name"].dropna().unique() if n != "Unknown Store"}
     pivot = store_category_mix(df, anonymize=True)
+    for real in real_names:
+        assert real not in pivot.index, f"Real store name in mix index: {real!r}"
     assert all(idx.startswith("Store ") for idx in pivot.index)
-    assert not any("the client" in idx for idx in pivot.index)
 
 
 def test_store_labels_a_is_highest_revenue(df):
