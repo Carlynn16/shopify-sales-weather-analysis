@@ -1,0 +1,41 @@
+# --- Confidential data & legacy material ---
+data/
+_legacy/
+_original/
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- Virtual environments ---
+venv/
+.venv/
+env/
+.env/
+
+# --- Secrets / credentials ---
+.env
+*.env
+secrets.py
+
+# --- Data files (never commit client data) ---
+*.csv
+!src/product_categories.csv
+*.xlsx
+*.xls
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+~$*
+.vscode/
+.idea/
+
+# --- Build / dist ---
+*.egg-info/
+dist/
+build/
