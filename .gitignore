@@ -38,6 +38,9 @@ Thumbs.db
 .vscode/
 .idea/
 
+# --- Generated report output (rebuild with reports/build_report.py) ---
+reports/report.docx
+
 # --- Build / dist ---
 *.egg-info/
 dist/
