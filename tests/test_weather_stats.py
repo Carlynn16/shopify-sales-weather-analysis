@@ -309,6 +309,23 @@ def test_sensitivity_has_p_adj(sensitivity_results):
     assert "p_adj" in sensitivity_results.columns
 
 
+def test_sensitivity_has_ci_columns(sensitivity_results):
+    assert "ci_lower" in sensitivity_results.columns
+    assert "ci_upper" in sensitivity_results.columns
+
+
+def test_sensitivity_ci_ordering(sensitivity_results):
+    valid = sensitivity_results.dropna(subset=["ci_lower", "ci_upper"])
+    assert (valid["ci_lower"] <= valid["ci_upper"] + 1e-9).all()
+
+
+def test_sensitivity_ci_brackets_r(sensitivity_results):
+    valid = sensitivity_results.dropna(subset=["spearman_r", "ci_lower", "ci_upper"])
+    valid = valid[(valid["ci_upper"] - valid["ci_lower"]) > 0.01]
+    assert (valid["ci_lower"] <= valid["spearman_r"] + 1e-6).all()
+    assert (valid["spearman_r"] <= valid["ci_upper"] + 1e-6).all()
+
+
 # ── apply_fdr ─────────────────────────────────────────────────────────────────
 
 def test_fdr_in_range():

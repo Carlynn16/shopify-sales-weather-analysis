@@ -340,12 +340,17 @@ def group_comparisons(
 
 # -- Per-store weather sensitivity ---------------------------------------------
 
-def store_weather_sensitivity(store_panel: pd.DataFrame) -> pd.DataFrame:
+def store_weather_sensitivity(
+    store_panel: pd.DataFrame,
+    n_boot: int = _N_BOOT,
+    block_size: int = _BLOCK_SIZE,
+) -> pd.DataFrame:
     """
-    Spearman correlation of each store's daily revenue_pct with temperature_2m_max.
+    Spearman correlation of each store's daily revenue_pct with temperature_2m_max,
+    with block-bootstrap 95% CIs.
 
     Returns DataFrame sorted by |spearman_r| descending:
-        store_label, spearman_r, p_value, n_days, p_adj.
+        store_label, spearman_r, ci_lower, ci_upper, p_value, n_days, p_adj.
     """
     rows: list[dict] = []
     for label in sorted(store_panel["store_label"].unique()):
@@ -353,15 +358,26 @@ def store_weather_sensitivity(store_panel: pd.DataFrame) -> pd.DataFrame:
             store_panel[store_panel["store_label"] == label]
             [["temperature_2m_max", "revenue_pct"]]
             .dropna()
+            .sort_index()
         )
         if len(sub) < 5:
             rows.append({"store_label": label, "spearman_r": float("nan"),
+                         "ci_lower": float("nan"), "ci_upper": float("nan"),
                          "p_value": float("nan"), "n_days": len(sub)})
             continue
-        r, p = ss.spearmanr(sub["temperature_2m_max"], sub["revenue_pct"])
+        x = sub["temperature_2m_max"].to_numpy(float)
+        y = sub["revenue_pct"].to_numpy(float)
+        r, p = ss.spearmanr(x, y)
+        ci_lo, ci_hi = _block_bootstrap_ci(
+            x, y,
+            lambda a, b: ss.spearmanr(a, b).statistic,
+            n_boot=n_boot, block_size=block_size,
+        )
         rows.append({
             "store_label": label,
             "spearman_r":  round(float(r), 4),
+            "ci_lower":    round(ci_lo, 4),
+            "ci_upper":    round(ci_hi, 4),
             "p_value":     round(float(p), 6),
             "n_days":      len(sub),
         })
