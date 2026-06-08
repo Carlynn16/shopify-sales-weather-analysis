@@ -1,7 +1,7 @@
 """
-Finalize reports/report.docx:
+Finalize report.docx:
   1. Harmonize period wording: "15 calendar months" -> "14-month period (January 2024-March 2025)"
-  2. Export to reports/report.pdf via docx2pdf (uses installed Word)
+  2. Export to report.pdf via docx2pdf (uses installed Word)
   3. Safety-check PDF text: 0 DKK, 0 real suburb/client names
 
 Run from project root:  python scripts/finalize_report.py
@@ -12,8 +12,8 @@ from pathlib import Path
 
 from docx import Document
 
-DOCX = Path("reports/report.docx")
-PDF  = Path("reports/report.pdf")
+DOCX = Path("report.docx")
+PDF  = Path("report.pdf")
 
 OLD_PHRASE = "the period from January 2024 to March 2025 (15 calendar months)"
 NEW_PHRASE = "a 14-month period (January 2024–March 2025)"  # en-dash

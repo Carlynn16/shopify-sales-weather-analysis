@@ -1,5 +1,5 @@
 """
-Insert four results tables into Section 4 of reports/report.docx.
+Insert four results tables into Section 4 of report.docx.
 
 Insertion points are located by anchor text so the script is robust to
 surrounding edits.  All existing paragraphs, figures, and manual edits
@@ -16,7 +16,7 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt
 
-REPORT = Path("reports/report.docx")
+REPORT = Path("report.docx")
 
 # Column widths (inches) per table
 _W_CORR   = [0.85, 1.05, 0.60, 0.60, 1.25, 0.75, 0.35]   # 7 cols = 5.45 in

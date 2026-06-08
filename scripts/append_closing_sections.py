@@ -1,5 +1,5 @@
 """
-Append closing sections to reports/report.docx:
+Append closing sections to report.docx:
   - Executive Summary  (inserted as front matter, before Section 1)
   - 6  Recommendations
   - 7  Limitations & Next Steps
@@ -15,7 +15,7 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Pt
 
-REPORT    = Path("reports/report.docx")
+REPORT    = Path("report.docx")
 _FONT_BODY = Pt(9)
 
 

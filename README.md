@@ -66,8 +66,8 @@ Additional figures — seasonality breakdowns, store comparisons, OLS coefficien
 
 The complete write-up — methodology, all figures, tables, and findings — is available in two formats:
 
-- [📄 Full report (PDF)](reports/report.pdf)
-- [📝 Editable DOCX](reports/report.docx)
+- [📄 Full report (PDF)](report.pdf)
+- [📝 Editable DOCX](report.docx)
 
 ---
 

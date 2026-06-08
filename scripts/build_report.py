@@ -1,6 +1,6 @@
 """
-Generate reports/report.docx — first draft of the Shopify Sales & Weather Analysis report.
-Run from repo root: python reports/build_report.py
+Generate report.docx — first draft of the Shopify Sales & Weather Analysis report.
+Run from repo root: python scripts/build_report.py
 
 All figures are read from figures/.  All numbers are sourced from the analysis
 notebooks and check scripts; none are invented.

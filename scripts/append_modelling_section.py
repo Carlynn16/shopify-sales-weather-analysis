@@ -1,5 +1,5 @@
 """
-Append 'Section 5: Predictive Modelling' to reports/report.docx.
+Append 'Section 5: Predictive Modelling' to report.docx.
 Run from project root: python scripts/append_modelling_section.py
 All numbers grounded in actual modeling.py outputs; no absolute DKK.
 """
@@ -12,7 +12,7 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt
 
-REPORT  = Path("reports/report.docx")
+REPORT  = Path("report.docx")
 FIGURES = Path("figures")
 W       = Inches(6.3)
 

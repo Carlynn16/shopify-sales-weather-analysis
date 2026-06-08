@@ -1,5 +1,5 @@
 """
-Append 'Section 4: Weather Analysis' to reports/report.docx.
+Append 'Section 4: Weather Analysis' to report.docx.
 Run from the project root: python scripts/append_weather_section.py
 """
 import sys
@@ -9,7 +9,7 @@ from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Inches, Pt
 
-REPORT = Path("reports/report.docx")
+REPORT = Path("report.docx")
 FIGURES = Path("figures")
 W = Inches(6.3)   # full content width (8.5 - 2 x 1.1 margins)
 

@@ -1,6 +1,6 @@
 """
 Patch Section 5.1: insert one clarifying sentence after the precipitation
-coefficient sentence, then re-export reports/report.docx to reports/report.pdf.
+coefficient sentence, then re-export report.docx to report.pdf.
 
 Run from project root:  python scripts/patch_51_precipitation.py
 """
@@ -8,8 +8,8 @@ from pathlib import Path
 
 from docx import Document
 
-DOCX = Path("reports/report.docx")
-PDF  = Path("reports/report.pdf")
+DOCX = Path("report.docx")
+PDF  = Path("report.pdf")
 
 # The exact substring that ends the precipitation sentence in para 134.
 ANCHOR = "-3.9%)."
